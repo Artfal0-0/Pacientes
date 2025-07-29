@@ -56,6 +56,22 @@
             }
         });
     });
+
+    $(document).ready(function() {
+        let patientId;
+        $('#modalEliminar').on('show.bs.modal', function(event) {
+            patientId = $(event.relatedTarget).data('id');
+        });
+
+        $('#confirmarEliminar').on('click', function() {
+            if (patientId) {
+                window.location.href = '<?= base_url('patients/delete/') ?>' + patientId;
+            } else {
+                alert('Error: No se pudo obtener el ID del paciente.');
+                $('#modalEliminar').modal('hide');
+            }
+        });
+    });
 </script>
 <!-- Toastr CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">

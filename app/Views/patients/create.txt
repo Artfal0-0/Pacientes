@@ -18,37 +18,33 @@
                                 <input type="text" class="form-control" id="code" name="code" required placeholder="Ingrese el código (3 dígitos)">
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="first_name">Nombre</label>
                                 <input type="text" class="form-control" id="first_name" name="first_name" required placeholder="Ingrese el nombre">
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="last_name">Apellidos</label>
                                 <input type="text" class="form-control" id="last_name" name="last_name" required placeholder="Ingrese los apellidos">
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="date_of_birth">Fecha de Nacimiento</label>
-                                        <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="gender">Género</label>
-                                        <select class="form-control" id="gender" name="gender" required>
-                                            <option value="">Seleccione un género</option>
-                                            <option value="M">Masculino</option>
-                                            <option value="F">Femenino</option>
-                                            <option value="O">Otro</option>
-                                        </select>
-                                    </div>
-                                </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="date_of_birth">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="gender">Género</label>
+                                <select class="form-control" id="gender" name="gender" required>
+                                    <option value="">Seleccione un género</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                    <option value="O">Otro</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -141,25 +137,7 @@
                         'rigidez_cuello' => 'Rigidez en el cuello',
                         'fatiga_mental' => 'Fatiga mental',
                         'perdida_memoria' => 'Pérdida de memoria breve',
-                        'dolor_ojos' => 'Dolor alrededor de los ojos',
-                        'dolor_intenso_unilateral' => 'Dolor intenso unilateral',
-                        'lagrimeo_ojo' => 'Lagrimeo en el ojo',
-                        'nariz_taponada' => 'Nariz taponada',
-                        'dolor_persistente' => 'Dolor persistente',
-                        'fiebre_alta' => 'Fiebre alta',
-                        'letargo' => 'Letargo',
-                        'dolor_cabeza_severa' => 'Dolor de cabeza severa',
-                        'vision_doble' => 'Visión doble',
-                        'presion_ocular' => 'Presión ocular',
-                        'dolor_cabeza_trauma' => 'Dolor de cabeza por trauma',
-                        'perdida_conciencia' => 'Pérdida de conciencia',
-                        'nauseas_severas' => 'Náuseas severas',
-                        'vomitos_proyectiles' => 'Vómitos proyectiles',
-                        'debilidad_facial' => 'Debilidad facial',
-                        'dificultad_cerrar_ojo' => 'Dificultad para cerrar el ojo',
-                        'ansiedad_extrema' => 'Ansiedad extrema',
-                        'temblores' => 'Temblores',
-                        'aura_visual' => 'Aura visual'
+                        'dolor_ojos' => 'Dolor alrededor de los ojos'
                     ];
 
                     foreach ($symptoms as $value => $label): ?>
@@ -242,7 +220,6 @@
                 $.ajax({
                     url: '<?= base_url('patients/validate/') ?>' + value,
                     type: 'GET',
-                    dataType: 'json', // Asegurar que se interprete como JSON
                     success: function(response) {
                         if (response.data && response.data.length > 0) {
                             isCurrentCodeValid = false;
@@ -254,10 +231,10 @@
                             toastr.success('Código válido');
                         }
                     },
-                    error: function(xhr, status, error) {
+                    error: function() {
                         isCurrentCodeValid = false;
                         document.getElementById('aceptarButton').disabled = true;
-                        toastr.error('Error al validar el código: ' + error);
+                        toastr.error('Error al validar el código');
                     }
                 });
             }
@@ -285,8 +262,7 @@
 
     // Manejo del switch de activo
     document.getElementById('is_active_switch').addEventListener('change', function() {
-        const isActiveInput = document.getElementById('is_active');
-        isActiveInput.value = this.checked ? '1' : '0';
+        document.getElementById('is_active').value = this.checked ? '1' : '0';
     });
 
     if (!document.getElementById('is_active')) {
@@ -319,7 +295,7 @@
                 `);
             });
 
-            $('#symptoms-hidden').val(selectedSymptoms.length > 0 ? selectedSymptoms.join(',') : ''); // Sin espacios
+            $('#symptoms-hidden').val(selectedSymptoms.length > 0 ? selectedSymptoms.join(',') : '');
             return selectedSymptoms.length > 0;
         }
 
@@ -336,8 +312,6 @@
         $('#saveSymptoms').click(function() {
             if (updateSelectedSymptoms()) {
                 $('#symptomsModal').modal('hide');
-                // Restaurar el foco al botón del formulario principal
-                $('#aceptarButton').focus();
             } else {
                 toastr.error('Por favor, seleccione al menos un síntoma.');
             }
@@ -350,14 +324,9 @@
             updateSelectedSymptoms();
         });
 
-        // Asegurar que el modal se cierre completamente
+        // Actualizar al cerrar el modal
         $('#symptomsModal').on('hidden.bs.modal', function() {
             updateSelectedSymptoms();
-            // Forzar la eliminación del backdrop y restaurar interactividad
-            $('.modal-backdrop').remove();
-            $('body').removeClass('modal-open');
-            $('body').css('overflow', 'auto');
-            $('#aceptarButton').prop('disabled', !isCurrentCodeValid || !updateSelectedSymptoms());
         });
 
         // Validación antes de enviar el formulario

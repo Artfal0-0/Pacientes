@@ -32,14 +32,32 @@
         });
     </script>
 
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap5.min.css">
+
+    <!-- DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script> <!-- Reemplaza con tu ID de Font Awesome -->
+
+
+
     <!-- CSS Files -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <link rel="stylesheet" href="<?= base_url('public/assets/css/bootstrap.min.css') ?>" />
     <link rel="stylesheet" href="<?= base_url('public/assets/css/plugins.min.css') ?>" />
     <link rel="stylesheet" href="<?= base_url('public/assets/css/kaiadmin.min.css') ?>" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMfZxhx0g9D6Bhd6WjB2R9zHT9szc73lmtPbX6D" crossorigin="anonymous">
-
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-5eS8YMo6H3eX5eD8nK0uP8zZ0F4z4nX8g8eMEcE" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="<?= base_url('public/assets/css/demo.css') ?>" />
 
@@ -66,9 +84,6 @@
             background: none !important;
             color: white !important;
         }
-
-
-
     </style>
 
 </head>
@@ -106,6 +121,14 @@
                                 <i class="fa fa-list"></i>
                                 <p>Lista de Participantes</p>
                             </a>
+                            <a href="<?= base_url('/statistics') ?>">
+                                <i class="bi bi-bar-chart"></i>
+                                <p>Estadisticas</p>
+                            </a>
+                            <a href="<?= base_url('/ia') ?>">
+                                <i class="bi bi-chat-left-text"></i>
+                                <p>Chat con IA</p>
+                            </a>
                         </li>
                     </ul>
 
@@ -113,7 +136,7 @@
                 </div>
             </div>
         </div>
-        <!-- End Sidebar -->
+
 
         <div class="main-panel">
             <div class="main-header">
@@ -123,10 +146,6 @@
                     <!-- Logo Header -->
                     <div class="logo-header" data-background-color="dark">
 
-                        <a href="https://damisoft-ec.com/" class="logo">
-                            <img src="" alt="Logo empresa"
-                                class="navbar-brand" height="80" />
-                        </a>
 
                     </div>
                     <!-- End Logo Header -->
@@ -138,7 +157,7 @@
                             class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
                         </nav>
 
-                        
+
                         <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
                             <li class="nav-item topbar-user dropdown hidden-caret">
                                 <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
@@ -167,7 +186,7 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        
+
                                     </div>
                                 </ul>
                             </li>

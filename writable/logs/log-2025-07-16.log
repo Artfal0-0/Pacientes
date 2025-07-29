@@ -1,0 +1,28 @@
+CRITICAL - 2025-07-16 21:40:07 --> ErrorException: Undefined variable $symptoms
+[Method: GET, Route: patients/create]
+in APPPATH\Views\patients\create.php on line 115.
+ 1 APPPATH\Views\patients\create.php(115): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $symptoms', 'C:\\laragon\\www\\patients\\app\\Views\\patients\\create.php', 115)
+ 2 SYSTEMPATH\View\View.php(234): include('C:\\laragon\\www\\patients\\app\\Views\\patients\\create.php')
+ 3 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('patients/create', [], true)
+ 5 APPPATH\Controllers\PatientController.php(24): view('patients/create')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PatientController->create()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PatientController))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-07-16 21:40:14 --> ErrorException: Undefined variable $symptoms
+[Method: GET, Route: patients/create]
+in APPPATH\Views\patients\create.php on line 115.
+ 1 APPPATH\Views\patients\create.php(115): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $symptoms', 'C:\\laragon\\www\\patients\\app\\Views\\patients\\create.php', 115)
+ 2 SYSTEMPATH\View\View.php(234): include('C:\\laragon\\www\\patients\\app\\Views\\patients\\create.php')
+ 3 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('patients/create', [], true)
+ 5 APPPATH\Controllers\PatientController.php(24): view('patients/create')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PatientController->create()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PatientController))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

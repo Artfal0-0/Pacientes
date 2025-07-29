@@ -23,7 +23,16 @@
                         <i class="fas fa-list-alt me-2 text-primary"></i>Listado de Pacientes
                     </h5>
                 </div>
-
+                <div class="col-auto">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-success btn-sm" id="exportBtn">
+                            <i class="fas fa-download me-1"></i>Exportar CSV
+                        </button>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="printBtn">
+                            <i class="fas fa-print me-1"></i>Imprimir
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -32,9 +41,11 @@
                 <table id="data_table" class="table table-hover align-middle">
                     <thead class="table-light">
                         <tr>
-                            <th class="fw-semibold">Código</th>
                             <th class="fw-semibold">
-                                <i class="fas fa-user me-1 text-muted"></i>Nombre
+                                <i class="fas fa-barcode me-1 text-muted"></i>Código
+                            </th>
+                            <th class="fw-semibold">
+                                <i class="fas fa-user me-1 text-muted"></i>Nombre Completo
                             </th>
                             <th class="fw-semibold">
                                 <i class="fas fa-notes-medical me-1 text-muted"></i>Síntomas
@@ -61,6 +72,7 @@
                                             <div class="fw-semibold text-dark patient-name">
                                                 <?= $patient['first_name'] . ' ' . $patient['last_name'] ?>
                                             </div>
+                                            <small class="text-muted">Paciente registrado</small>
                                         </div>
                                     </div>
                                 </td>
@@ -139,16 +151,16 @@
 <script>
     $(document).ready(function() {
         // Inicializar tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
+            return new bootstrap.Tooltip(tooltipTriggerEl)
         });
 
         // Inicializar DataTable con configuración mejorada
         var table = $('#data_table').DataTable({
             "pageLength": 10,
             "responsive": true,
-            "dom": '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"i>>p',
+            "dom": '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rtip',
             "language": {
                 "lengthMenu": "Mostrar _MENU_ registros por página",
                 "zeroRecords": "No se encontraron registros que coincidan",
@@ -168,20 +180,154 @@
             },
             "columnDefs": [{
                     "orderable": false,
-                    "targets": 3
+                    "targets": 4
                 }, // Desactivar ordenamiento en columna de acciones
                 {
                     "searchable": false,
-                    "targets": [0, 3]
+                    "targets": [0, 4]
                 } // Desactivar búsqueda en # y acciones
             ],
             "order": [
                 [1, 'asc']
-            ], // Ordenar por nombre por defecto
+            ], // Ordenar por código por defecto
+            "buttons": [{
+                    extend: 'csv',
+                    text: '<i class="fas fa-download me-1"></i>Exportar CSV',
+                    className: 'btn btn-outline-success btn-sm'
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fas fa-print me-1"></i>Imprimir',
+                    className: 'btn btn-outline-primary btn-sm'
+                }
+            ]
         });
 
-        // Asociar botones al DOM (ya se manejan con "dom" y "buttons")
-        table.buttons().container().appendTo('#data_table_wrapper .col-md-6:eq(1)');
+        // Función para exportar a CSV
+        $('#exportBtn').on('click', function() {
+            // Mostrar loading en el botón
+            var originalHtml = $(this).html();
+            $(this).html('<i class="fas fa-spinner fa-spin me-1"></i>Exportando...')
+                .prop('disabled', true);
+
+            // Preparar datos para CSV
+            var csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Código,Nombre Completo,Síntomas\n";
+
+            // Obtener datos de la tabla
+            table.rows().every(function() {
+                var data = this.data();
+                var code = $(data[1]).text().trim();
+                var name = $(data[2]).find('.fw-semibold').text().trim();
+                var symptoms = $(data[3]).text().trim().replace('undefined', '').replace(/\s+/g, ' ');
+
+                csvContent += '"' + code + '","' + name + '","' + symptoms + '"\n';
+            });
+
+            // Crear enlace de descarga
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "pacientes_" + new Date().toISOString().split('T')[0] + ".csv");
+            document.body.appendChild(link);
+
+            // Descargar archivo
+            link.click();
+            document.body.removeChild(link);
+
+            // Restaurar botón
+            setTimeout(function() {
+                $('#exportBtn').html(originalHtml).prop('disabled', false);
+                toastr.success('Archivo CSV exportado exitosamente');
+            }, 1000);
+        });
+
+        // Función para imprimir
+        $('#printBtn').on('click', function() {
+            var originalHtml = $(this).html();
+            $(this).html('<i class="fas fa-spinner fa-spin me-1"></i>Preparando...')
+                .prop('disabled', true);
+
+            // Crear ventana de impresión
+            var printWindow = window.open('', '_blank');
+            var printContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Listado de Pacientes</title>
+                    <meta charset="utf-8">
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        .header { text-align: center; margin-bottom: 30px; }
+                        .header h1 { color: #0d6efd; margin-bottom: 5px; }
+                        .header p { color: #6c757d; margin: 0; }
+                        .date { text-align: right; margin-bottom: 20px; color: #6c757d; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                        th, td { border: 1px solid #dee2e6; padding: 8px; text-align: left; }
+                        th { background-color: #f8f9fa; font-weight: bold; }
+                        .text-center { text-align: center; }
+                        .badge { background-color: #e9ecef; padding: 2px 8px; border-radius: 4px; font-size: 0.875em; }
+                        @media print {
+                            .no-print { display: none !important; }
+                            body { margin: 0; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>Gestión de Pacientes</h1>
+                        <p>Listado completo de pacientes registrados</p>
+                    </div>
+                    <div class="date">
+                        Fecha de impresión: ${new Date().toLocaleDateString('es-ES')}
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th>Código</th>
+                                <th>Nombre Completo</th>
+                                <th>Síntomas</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+            // Agregar filas de datos
+            table.rows().every(function(index) {
+                var data = this.data();
+                var code = $(data[1]).text().trim();
+                var name = $(data[2]).find('.fw-semibold').text().trim();
+                var symptoms = $(data[3]).text().trim().replace('undefined', '').replace(/\s+/g, ' ');
+
+                printContent += `
+                    <tr>
+                        <td class="text-center">${index + 1}</td>
+                        <td><span class="badge">${code}</span></td>
+                        <td>${name}</td>
+                        <td>${symptoms}</td>
+                    </tr>`;
+            });
+
+            printContent += `
+                        </tbody>
+                    </table>
+                    <div style="margin-top: 40px; text-align: center; color: #6c757d; font-size: 0.875em;">
+                        <p>Total de pacientes: ${table.rows().count()}</p>
+                        <p>Sistema de Gestión de Pacientes - ${new Date().getFullYear()}</p>
+                    </div>
+                </body>
+                </html>`;
+
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+
+            // Esperar a que cargue e imprimir
+            setTimeout(function() {
+                printWindow.print();
+                printWindow.close();
+                $('#printBtn').html(originalHtml).prop('disabled', false);
+            }, 500);
+        });
 
         // Manejo mejorado del modal de eliminación
         let patientId;
@@ -196,8 +342,11 @@
 
         $('#confirmarEliminar').on('click', function() {
             if (patientId) {
+                // Mostrar loading en el botón
                 $(this).html('<i class="fas fa-spinner fa-spin me-2"></i>Eliminando...')
                     .prop('disabled', true);
+
+                // Redirigir a la ruta de eliminación después de un pequeño delay
                 setTimeout(function() {
                     window.location.href = '<?= base_url('patients/delete/') ?>' + patientId;
                 }, 500);
@@ -208,6 +357,18 @@
                     alert('Error: No se pudo obtener el ID del paciente.');
                 }
                 $('#modalEliminar').modal('hide');
+            }
+        });
+
+        // Manejo de síntomas (si existe el campo)
+        $('#aceptarButton').on('click', function(e) {
+            if ($('#symptoms').val() === null || $('#symptoms').val().length === 0) {
+                e.preventDefault();
+                if (typeof toastr !== 'undefined') {
+                    toastr.error('Por favor, seleccione al menos un síntoma.');
+                } else {
+                    alert('Por favor, seleccione al menos un síntoma.');
+                }
             }
         });
 

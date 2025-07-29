@@ -1,0 +1,45 @@
+CRITICAL - 2025-07-26 19:06:09 --> ErrorException: Undefined variable $patients
+[Method: GET, Route: statistics]
+in APPPATH\Views\statistics\index.php on line 90.
+ 1 APPPATH\Views\statistics\index.php(90): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $patients', 'C:\\laragon\\www\\patients\\app\\Views\\statistics\\index.php', 90)
+ 2 SYSTEMPATH\View\View.php(234): include('C:\\laragon\\www\\patients\\app\\Views\\statistics\\index.php')
+ 3 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('statistics/index', [], true)
+ 5 APPPATH\Controllers\StatisticsController.php(56): view('statistics/index', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\StatisticsController->statistics()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\StatisticsController))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+
+CRITICAL - 2025-07-26 19:06:32 --> ErrorException: Undefined variable $patients
+[Method: GET, Route: statistics]
+in APPPATH\Views\statistics\index.php on line 90.
+ 1 APPPATH\Views\statistics\index.php(90): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $patients', 'C:\\laragon\\www\\patients\\app\\Views\\statistics\\index.php', 90)
+ 2 SYSTEMPATH\View\View.php(234): include('C:\\laragon\\www\\patients\\app\\Views\\statistics\\index.php')
+ 3 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('statistics/index', [], true)
+ 5 APPPATH\Controllers\StatisticsController.php(56): view('statistics/index', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\StatisticsController->statistics()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\StatisticsController))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+
+CRITICAL - 2025-07-26 19:14:36 --> ParseError: Unmatched ')'
+[Method: GET, Route: statistics]
+in APPPATH\Views\statistics\index.php on line 78.
+ 1 SYSTEMPATH\View\View.php(237): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\Common.php(1171): CodeIgniter\View\View->render('statistics/index', [], true)
+ 3 APPPATH\Controllers\StatisticsController.php(57): view('statistics/index', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\StatisticsController->statistics()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\StatisticsController))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+
+
+
