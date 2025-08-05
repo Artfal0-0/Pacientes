@@ -657,22 +657,28 @@
                                 <ul class="list-unstyled">
                                     <li>🩺 Consulta a un especialista si los síntomas persisten o empeoran.</li>
                                     <?php
-                                    // Lista de recomendaciones aumentada con 5 más
                                     $recommendations = [
-                                        '🌞 Evita luces brillantes o ruidos fuertes y considera tomar analgésicos bajo supervisión médica.',
-                                        '💆 Relaja los músculos del cuello y los hombros con estiramientos suaves.',
-                                        '⏰ Evita el consumo de alcohol y mantén un horario de sueño regular.',
-                                        '💨 Usa un humidificador o inhala vapor para aliviar la congestión nasal.',
-                                        '🍲 Consume alimentos ligeros y evita comidas pesadas.',
-                                        '🌿 Considera técnicas de relajación como meditación o respiración profunda.',
-                                        '🏃 Realiza ejercicio ligero para mejorar la circulación y reducir el estrés.',
-                                        '☀️ Expónte a la luz solar moderada para regular tus niveles de vitamina D.',
-                                        '💧 Aplica compresas frías o calientes según el tipo de dolor.',
-                                        '📱 Limita el uso de dispositivos electrónicos para reducir la fatiga visual.'
+                                        'Hospital Metropolitano - Quito',
+                                        'Hospital Alcívar - Guayaquil',
+                                        'Hospital de Niños Roberto Gilbert Elizalde - Guayaquil',
+                                        'Hospital de Especialidades Eugenio Espejo - Quito',
+                                        'Hospital Monte Sinai - Guayaquil',
+                                        'Hospital Universitario del Río - Cuenca',
+                                        'Hospital Santa Inés - Cuenca',
+                                        'Hospital de Niños Baca Ortiz - Quito',
+                                        'Solca-Instituto Oncológico J. Tanca - Guayaquil',
+                                        'Hospital Básico Alberto Correa Cornejo - Yaruquí',
+                                        'Hospital Pedro Vicente Maldonado - Pedro Vicente Maldonado',
+                                        'Hesburgh Hospital - Santo Domingo',
+                                        'Clínica La Merced - Cuenca',
+                                        'Hospital Gineco-Obstétrico Isidro Ayora - Quito',
+                                        'Clínica del Riñón Socihemod - Santo Domingo de los Tsáchilas',
+                                        'Hospital Clínica Kennedy Policentro (ACARE Center) - Guayaquil',
                                     ];
                                     // Seleccionar una recomendación aleatoria
                                     $randomRecommendation = $recommendations[array_rand($recommendations)];
                                     echo '<li>' . $randomRecommendation . '</li>';
+                                    
                                     ?>
                                 </ul>
                                 <p class="text-muted mt-2">Nota: Estas son recomendaciones generales. Busca atención médica profesional para un diagnóstico preciso.</p>

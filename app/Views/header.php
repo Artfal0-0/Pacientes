@@ -182,7 +182,6 @@
                                                 <div class="u-text">
                                                     <h4><?= session()->get('user_name') ? session()->get('user_name') : 'Usuario' ?></h4>
                                                     <p class="text-muted">Administrador</p>
-
                                                 </div>
                                             </div>
                                         </li>
