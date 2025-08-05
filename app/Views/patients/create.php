@@ -15,19 +15,19 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="code">Código</label>
-                                <input type="text" class="form-control" id="code" name="code" required placeholder="Ingrese el código (3 dígitos)">
+                                <input type="text" class="form-control" id="code" name="code" required placeholder="Ingrese el código (3 dígitos)" pattern="[0-9]{3}" maxlength="3">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="first_name">Nombre</label>
-                                <input type="text" class="form-control" id="first_name" name="first_name" required placeholder="Ingrese el nombre">
+                                <input type="text" class="form-control" id="first_name" name="first_name" required placeholder="Ingrese los nombres" pattern="[A-Za-z\s]+" title="Solo letras y espacios son permitidos">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="last_name">Apellidos</label>
-                                <input type="text" class="form-control" id="last_name" name="last_name" required placeholder="Ingrese los apellidos">
+                                <input type="text" class="form-control" id="last_name" name="last_name" required placeholder="Ingrese los apellidos" pattern="[A-Za-z\s]+" title="Solo letras y espacios son permitidos">
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -62,16 +62,16 @@
                         <center>
                             <h4>Datos de Contacto y Síntomas</h4>
                         </center>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="email">Correo Electrónico</label>
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese el correo electrónico">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="phone">Teléfono</label>
-                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Ingrese el teléfono">
+                                <input type="text" class="form-control" id="phone" name="phone" required placeholder="Ingrese el teléfono (10 dígitos)" pattern="[0-9]{10}" maxlength="10" title="Debe contener exactamente 10 dígitos numéricos">
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -103,7 +103,7 @@
     </div>
 </div>
 
-<!-- Modal de síntomas -->
+<!-- Modal de síntomas (sin cambios, se mantiene igual) -->
 <div class="modal fade" id="symptomsModal" tabindex="-1" aria-labelledby="symptomsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -242,7 +242,7 @@
                 $.ajax({
                     url: '<?= base_url('patients/validate/') ?>' + value,
                     type: 'GET',
-                    dataType: 'json', // Asegurar que se interprete como JSON
+                    dataType: 'json',
                     success: function(response) {
                         if (response.data && response.data.length > 0) {
                             isCurrentCodeValid = false;
@@ -276,11 +276,34 @@
         }
     });
 
-    // Validación del teléfono
+    // Validación del teléfono (10 dígitos)
     $('#phone').on('input', function() {
         let value = $(this).val();
-        value = value.replace(/[^0-9]/g, '');
+        value = value.replace(/[^0-9]/g, ''); // Solo números
+        if (value.length > 10) {
+            value = value.substring(0, 10);
+        }
         $(this).val(value);
+        if (value.length !== 10) {
+            document.getElementById('aceptarButton').disabled = true;
+        } else {
+            document.getElementById('aceptarButton').disabled = !isCurrentCodeValid;
+        }
+    });
+
+    // Validación de nombres y apellidos (solo letras y espacios)
+    $('#first_name, #last_name').on('input', function() {
+        let value = $(this).val();
+        let fieldName = $(this).attr('name') === 'first_name' ? 'Nombre' : 'Apellidos';
+        value = value.replace(/[^A-Za-z\s]/g, ''); // Solo letras y espacios
+        $(this).val(value);
+        if (!/^[A-Za-z\s]+$/.test(value) && value !== '') {
+            document.getElementById('aceptarButton').disabled = true;
+        } else if (value === '') {
+            document.getElementById('aceptarButton').disabled = true;
+        } else {
+            document.getElementById('aceptarButton').disabled = !isCurrentCodeValid;
+        }
     });
 
     // Manejo del switch de activo
@@ -319,7 +342,7 @@
                 `);
             });
 
-            $('#symptoms-hidden').val(selectedSymptoms.length > 0 ? selectedSymptoms.join(',') : ''); // Sin espacios
+            $('#symptoms-hidden').val(selectedSymptoms.length > 0 ? selectedSymptoms.join(',') : '');
             return selectedSymptoms.length > 0;
         }
 
@@ -336,7 +359,6 @@
         $('#saveSymptoms').click(function() {
             if (updateSelectedSymptoms()) {
                 $('#symptomsModal').modal('hide');
-                // Restaurar el foco al botón del formulario principal
                 $('#aceptarButton').focus();
             } else {
                 toastr.error('Por favor, seleccione al menos un síntoma.');
@@ -353,7 +375,6 @@
         // Asegurar que el modal se cierre completamente
         $('#symptomsModal').on('hidden.bs.modal', function() {
             updateSelectedSymptoms();
-            // Forzar la eliminación del backdrop y restaurar interactividad
             $('.modal-backdrop').remove();
             $('body').removeClass('modal-open');
             $('body').css('overflow', 'auto');
@@ -362,12 +383,35 @@
 
         // Validación antes de enviar el formulario
         $('#aceptarButton').on('click', function(e) {
+            const phone = $('#phone').val();
+            const firstName = $('#first_name').val();
+            const lastName = $('#last_name').val();
+
             if (!updateSelectedSymptoms()) {
                 e.preventDefault();
                 toastr.error('Por favor, seleccione al menos un síntoma.');
-            } else if (!isCurrentCodeValid) {
+                return;
+            }
+
+            if (!isCurrentCodeValid) {
                 e.preventDefault();
                 toastr.error('El código no es válido o ya está registrado.');
+                return;
+            }
+
+            if (!/^[0-9]{10}$/.test(phone)) {
+                e.preventDefault();
+                return;
+            }
+
+            if (!/^[A-Za-z\s]+$/.test(firstName)) {
+                e.preventDefault();
+                return;
+            }
+
+            if (!/^[A-Za-z\s]+$/.test(lastName)) {
+                e.preventDefault();
+                return;
             }
         });
     });

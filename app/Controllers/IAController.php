@@ -16,7 +16,7 @@ class IAController extends Controller
     public function getResponse()
     {
         // api
-        $apiKey = 'AIzaSyDvMAqtJGqCvikqZ1S_q0bpsVCwzIxCnc0'; 
+        $apiKey = ''; 
         
         $prompt = $this->request->getPost('prompt');
 
